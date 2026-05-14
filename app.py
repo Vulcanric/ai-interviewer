@@ -17,4 +17,11 @@ job_title = input_title if input_title != "" else job_title
 if st.button(label="Submit", type="primary") or job_title:
     with st.spinner():
         questions = get_interview_questions(job_title)
+    # Display raw result
     st.write(questions)
+    # Display formatted result
+    with st.expander("See formatted version"):
+        for i, ques in enumerate(questions):
+            col1, col2 = st.columns([0.1, 0.8], vertical_alignment="center")
+            col1.write(f"### {i + 1}")
+            col2.write(f"### {ques}")
