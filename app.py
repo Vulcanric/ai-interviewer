@@ -15,13 +15,14 @@ job_title = input_title if input_title != "" else job_title
 
 # Generate questions when job_title changes or button is clicked
 if st.button(label="Submit", type="primary") or job_title:
+    # Showing a loading spinner to inform users of ongoing API request
     with st.spinner():
         questions = get_interview_questions(job_title)
-    # Display raw result
-    st.write(questions)
-    # Display formatted result
-    with st.expander("See formatted version"):
-        for i, ques in enumerate(questions):
-            col1, col2 = st.columns([0.1, 0.8], vertical_alignment="center")
-            col1.write(f"### {i + 1}")
-            col2.write(f"### {ques}")
+    # Display result
+    for i, ques in enumerate(questions):
+        col1, col2 = st.columns([0.1, 0.8], vertical_alignment="center")
+        col1.write(f"#### {i + 1}")
+        col2.write(f"#### {ques}")
+    # Display actual API response for nerds in an accordion
+    with st.expander("See API result"):
+        st.write(questions)
