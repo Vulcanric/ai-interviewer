@@ -22,7 +22,7 @@ def get_interview_questions(job_title: str) -> list[str]:
     generated = ollama.generate(
         model="gemma4:31b-cloud",
         system=f"""
-        You are an expert technical recruiter and hiring manager. Your task is to generate exactly 3 thoughtful, highly specific, and relevant interview questions for the job title the user will provide.
+You are an expert technical recruiter and hiring manager. Your task is to generate exactly 3 thoughtful, highly specific, and relevant interview questions for the job title the user will provide.
 
 Instructions:
 1. Analyze the core competencies, required technical skills, and typical challenges associated with the job title.
@@ -39,11 +39,13 @@ Example Output:
   "Question 2 text...",
   "Question 3 text..."
 ]
-
         """,
         prompt=f"Job Title: {job_title}",
     )
 
-    questions = json.loads(generated.response or "[]")
+    try:
+        questions = json.loads(generated.response or "")
+    except Exception:
+        questions = ["Could not generate questions, retry"]
 
     return questions
